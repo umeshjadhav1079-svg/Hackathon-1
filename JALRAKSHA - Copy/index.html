@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>JalRakshya – Groundwater Intelligence Platform</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- ===== NAVBAR ===== -->
+  <nav class="navbar" id="navbar">
+    <div class="nav-container">
+      <a href="index.html" class="nav-logo">
+        <i class="fas fa-water"></i>
+        JalRakshya
+      </a>
+      <ul class="nav-links" id="navLinks">
+        <li><a href="index.html" class="active">Home</a></li>
+        <li><a href="dashboard.html">Dashboard</a></li>
+        <li><a href="visualization.html">Visualization</a></li>
+      </ul>
+      <button class="hamburger" id="hamburger" aria-label="Toggle menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- ===== HERO ===== -->
+  <section class="hero" id="hero">
+    <div class="hero-bubbles" id="heroBubbles"></div>
+    <div class="hero-content">
+      <div class="hero-badge">
+        <i class="fas fa-shield-halved"></i>
+        Groundwater Intelligence Platform
+      </div>
+      <h1>
+        JalRakshya
+        <span>Protecting Groundwater with Data</span>
+      </h1>
+      <p class="hero-desc">Smart water insights for every citizen. Monitor groundwater levels, track depletion rates, and make data-driven decisions for water conservation across Nashik district.</p>
+      <div class="hero-search">
+        <div class="search-wrapper" id="searchWrapper">
+          <i class="fas fa-map-marker-alt search-icon"></i>
+          <input type="text" id="heroSearchInput" placeholder="Enter your location (e.g., Nashik, Deolali, CIDCO)..." autocomplete="off" list="locationList" />
+          <datalist id="locationList"></datalist>
+          <button id="heroSearchBtn">
+            <i class="fas fa-arrow-right"></i>
+            <span>Search</span>
+          </button>
+        </div>
+      </div>
+    </div>
+    <div class="hero-wave">
+      <svg viewBox="0 0 1440 120" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+        <path fill="var(--bg)" d="M0,64 C240,110 480,20 720,64 C960,110 1200,20 1440,64 L1440,120 L0,120 Z"></path>
+      </svg>
+    </div>
+  </section>
+
+  <!-- ===== ALERTS & NOTICES ===== -->
+  <section class="section alerts-section" id="alertsSection">
+    <div class="container">
+      <div class="section-header">
+        <h2><i class="fas fa-bell"></i> Alerts &amp; Notices</h2>
+        <p>Stay informed about water conditions and government initiatives</p>
+      </div>
+      <div class="alerts-grid">
+        <div class="alert-card alert-danger fade-in">
+          <div class="alert-icon"><i class="fas fa-exclamation-triangle"></i></div>
+          <div class="alert-body">
+            <h3>Water Levels Declining</h3>
+            <p>Several locations in Nashik district are experiencing a steady decline in groundwater levels. Conservation measures are strongly advised for all residents.</p>
+          </div>
+        </div>
+        <div class="alert-card alert-warning fade-in">
+          <div class="alert-icon"><i class="fas fa-landmark"></i></div>
+          <div class="alert-body">
+            <h3>Jal Jeevan Mission</h3>
+            <p>Government's flagship scheme to provide functional tap water to every rural household. Check eligibility and apply at <strong>jaljeevanmission.gov.in</strong></p>
+          </div>
+        </div>
+        <div class="alert-card alert-success fade-in">
+          <div class="alert-icon"><i class="fas fa-leaf"></i></div>
+          <div class="alert-body">
+            <h3>Rainwater Harvesting Subsidies</h3>
+            <p>Local municipalities are offering up to 50% subsidy on rainwater harvesting systems. Apply before March 2026 to avail the benefit.</p>
+          </div>
+        </div>
+        <div class="alert-card alert-info fade-in">
+          <div class="alert-icon"><i class="fas fa-vial"></i></div>
+          <div class="alert-body">
+            <h3>Free Water Quality Testing</h3>
+            <p>Free water quality testing is now available at all taluka offices. Ensure your drinking water meets BIS standards for safety.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== QUICK STATS ===== -->
+  <section class="section stats-section">
+    <div class="container">
+      <div class="section-header">
+        <h2><i class="fas fa-chart-bar"></i> Platform Overview</h2>
+        <p>Real-time statistics from our groundwater monitoring network</p>
+      </div>
+      <div class="stats-grid" id="statsGrid">
+        <div class="stat-card fade-in">
+          <div class="stat-icon"><i class="fas fa-map-marker-alt"></i></div>
+          <div class="stat-value" id="statLocations">--</div>
+          <div class="stat-label">Locations Monitored</div>
+        </div>
+        <div class="stat-card fade-in">
+          <div class="stat-icon"><i class="fas fa-database"></i></div>
+          <div class="stat-value" id="statRecords">--</div>
+          <div class="stat-label">Data Records</div>
+        </div>
+        <div class="stat-card fade-in">
+          <div class="stat-icon"><i class="fas fa-cloud-rain"></i></div>
+          <div class="stat-value" id="statRainfall">--</div>
+          <div class="stat-label">Avg Rainfall (mm)</div>
+        </div>
+        <div class="stat-card fade-in">
+          <div class="stat-icon"><i class="fas fa-water"></i></div>
+          <div class="stat-value" id="statGWLevel">--</div>
+          <div class="stat-label">Avg GW Level (m)</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== ABOUT ===== -->
+  <section class="section about-section">
+    <div class="container">
+      <div class="about-grid fade-in">
+        <div class="about-text">
+          <h2>About JalRakshya</h2>
+          <p>India extracts more groundwater than any other country in the world. In Nashik district alone, dozens of localities face moderate to severe water stress, threatening livelihoods and future sustainability.</p>
+          <p>JalRakshya transforms complex groundwater monitoring data into clean, visual dashboards that every citizen can understand and act upon — empowering communities with actionable water intelligence.</p>
+          <div class="about-features">
+            <div class="about-feature"><i class="fas fa-database"></i><span>Real CSV Data</span></div>
+            <div class="about-feature"><i class="fas fa-chart-pie"></i><span>Visual Analytics</span></div>
+            <div class="about-feature"><i class="fas fa-bell"></i><span>Smart Alerts</span></div>
+            <div class="about-feature"><i class="fas fa-mobile-screen"></i><span>Responsive Design</span></div>
+          </div>
+        </div>
+        <div class="about-visual">
+          <div class="about-card glass-card">
+            <div class="about-stat"><strong id="aboutLocations">100+</strong><span>Locations</span></div>
+            <div class="about-stat"><strong>315</strong><span>Data Records</span></div>
+            <div class="about-stat"><strong>9</strong><span>Parameters</span></div>
+            <div class="about-stat"><strong>3</strong><span>Years</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== FOOTER ===== -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-brand"><i class="fas fa-water"></i><span>JalRakshya</span></div>
+        <p>Groundwater Intelligence Platform — Making water data actionable for every citizen of Nashik district.</p>
+        <div class="footer-links">
+          <a href="index.html">Home</a>
+          <a href="dashboard.html">Dashboard</a>
+          <a href="visualization.html">Visualization</a>
+        </div>
+        <p class="footer-copy">&copy; 2025 JalRakshya. Built for awareness and water conservation.</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scroll to Top -->
+  <button class="scroll-top-btn" id="scrollTopBtn" aria-label="Scroll to top"><i class="fas fa-chevron-up"></i></button>
+
+  <script src="script.js"></script>
+</body>
+</html>

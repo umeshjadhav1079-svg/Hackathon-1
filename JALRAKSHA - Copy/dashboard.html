@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dashboard – JalRakshya</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- Loading Overlay -->
+  <div class="loading-overlay" id="loadingOverlay">
+    <div class="loader">
+      <div class="spinner"></div>
+      <p>Loading groundwater data...</p>
+    </div>
+  </div>
+
+  <!-- ===== NAVBAR (light – no hero behind it) ===== -->
+  <nav class="navbar navbar-light" id="navbar">
+    <div class="nav-container">
+      <a href="index.html" class="nav-logo"><i class="fas fa-water"></i> JalRakshya</a>
+      <ul class="nav-links" id="navLinks">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="dashboard.html" class="active">Dashboard</a></li>
+        <li><a href="visualization.html">Visualization</a></li>
+      </ul>
+      <button class="hamburger" id="hamburger" aria-label="Toggle menu"><span></span><span></span><span></span></button>
+    </div>
+  </nav>
+
+  <main class="page-main">
+    <!-- ===== TOP BAR ===== -->
+    <section class="dash-topbar">
+      <div class="container">
+        <div class="topbar-content">
+          <div class="topbar-left">
+            <nav class="breadcrumb">
+              <a href="index.html"><i class="fas fa-home"></i> Home</a>
+              <span class="sep">/</span>
+              <span>Dashboard</span>
+            </nav>
+            <h1><i class="fas fa-tachometer-alt"></i> <span id="locationDisplay">Loading...</span></h1>
+          </div>
+          <div class="topbar-right">
+            <button class="btn btn-outline" id="changeLocationBtn"><i class="fas fa-map-marker-alt"></i> Change Location</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== NO DATA ===== -->
+    <section class="no-data-section" id="noDataSection" style="display:none">
+      <div class="container">
+        <div class="no-data-card">
+          <i class="fas fa-search-location"></i>
+          <h2>No Data Available</h2>
+          <p id="noDataMessage">No data available for this location.</p>
+          <a href="index.html" class="btn btn-primary"><i class="fas fa-arrow-left"></i> Try Another Location</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== MAIN DASHBOARD ===== -->
+    <div id="dashboardContent" style="display:none">
+
+      <!-- Status Indicator -->
+      <section class="status-section">
+        <div class="container">
+          <div class="status-bar" id="statusBar">
+            <div class="status-dot"></div>
+            <div class="status-info">
+              <span class="status-label" id="statusLabel">Analyzing...</span>
+              <span class="status-desc" id="statusDesc">Loading data...</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Summary Cards (5) -->
+      <section class="section" style="padding-top:24px; padding-bottom:16px;">
+        <div class="container">
+          <div class="summary-grid">
+            <div class="glass-card summary-card fade-in">
+              <div class="card-icon water"><i class="fas fa-water"></i></div>
+              <h3>Water Level</h3>
+              <div class="card-value" id="valWaterLevel">--</div>
+              <div class="card-unit">meters below surface</div>
+            </div>
+            <div class="glass-card summary-card fade-in">
+              <div class="card-icon rain"><i class="fas fa-cloud-rain"></i></div>
+              <h3>Rainfall</h3>
+              <div class="card-value" id="valRainfall">--</div>
+              <div class="card-unit">mm / year</div>
+            </div>
+            <div class="glass-card summary-card fade-in">
+              <div class="card-icon depletion"><i class="fas fa-arrow-trend-down"></i></div>
+              <h3>Groundwater Depletion</h3>
+              <div class="card-value" id="valDepletion">--</div>
+              <div class="card-unit">% annual rate</div>
+            </div>
+            <div class="glass-card summary-card fade-in">
+              <div class="card-icon ph"><i class="fas fa-flask"></i></div>
+              <h3>pH Level</h3>
+              <div class="card-value" id="valPH">--</div>
+              <div class="card-unit">ideal: 6.5 – 8.5</div>
+            </div>
+            <div class="glass-card summary-card fade-in">
+              <div class="card-icon usage"><i class="fas fa-faucet-drip"></i></div>
+              <h3>Total Usage</h3>
+              <div class="card-value" id="valUsage">--</div>
+              <div class="card-unit">megalitres (combined)</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Map Placeholder -->
+      <section class="section" style="padding-top:0; padding-bottom:24px;">
+        <div class="container">
+          <div class="glass-card map-card fade-in">
+            <h3><i class="fas fa-map"></i> Map View</h3>
+            <div class="map-placeholder" id="mapPlaceholder">
+              <div class="map-pin"><i class="fas fa-map-marker-alt"></i></div>
+              <h4 id="mapLocationName">Location</h4>
+              <p>Nashik District, Maharashtra, India</p>
+              <div class="map-grid-bg"></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Data Table -->
+      <section class="section" style="padding-top:0; padding-bottom:24px;">
+        <div class="container">
+          <div class="glass-card table-card fade-in">
+            <h3><i class="fas fa-table"></i> Numerical Data Table</h3>
+            <div class="table-wrapper">
+              <table class="data-table" id="dataTable">
+                <thead>
+                  <tr>
+                    <th>Year</th>
+                    <th>Water Level (m)</th>
+                    <th>Rainfall (mm)</th>
+                    <th>Depletion (%)</th>
+                    <th>pH</th>
+                    <th>Agriculture (Ml)</th>
+                    <th>Industrial (Ml)</th>
+                    <th>Household (Ml)</th>
+                  </tr>
+                </thead>
+                <tbody id="tableBody"></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Insights + CTA -->
+      <section class="section" style="padding-top:0; padding-bottom:48px;">
+        <div class="container">
+          <div class="insights-grid">
+            <div class="glass-card insight-card fade-in">
+              <h3><i class="fas fa-brain"></i> Smart Insights</h3>
+              <div id="insightContent">
+                <p>Analyzing data...</p>
+              </div>
+            </div>
+            <div class="glass-card cta-card fade-in">
+              <div class="cta-icon"><i class="fas fa-chart-area"></i></div>
+              <h3>Want Detailed Analysis?</h3>
+              <p>Explore interactive charts, trend analysis, correlation graphs, and a comprehensive water health score for this location.</p>
+              <a href="visualization.html" class="btn btn-primary btn-lg">
+                <i class="fas fa-chart-line"></i> View Detailed Analysis
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <!-- ===== FOOTER ===== -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-brand"><i class="fas fa-water"></i><span>JalRakshya</span></div>
+        <p>Groundwater Intelligence Platform</p>
+        <div class="footer-links">
+          <a href="index.html">Home</a>
+          <a href="dashboard.html">Dashboard</a>
+          <a href="visualization.html">Visualization</a>
+        </div>
+        <p class="footer-copy">&copy; 2025 JalRakshya</p>
+      </div>
+    </div>
+  </footer>
+
+  <button class="scroll-top-btn" id="scrollTopBtn" aria-label="Scroll to top"><i class="fas fa-chevron-up"></i></button>
+  <script src="script.js"></script>
+</body>
+</html>

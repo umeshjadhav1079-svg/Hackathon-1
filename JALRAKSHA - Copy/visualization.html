@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Visualization – JalRakshya</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- Loading Overlay -->
+  <div class="loading-overlay" id="loadingOverlay">
+    <div class="loader">
+      <div class="spinner"></div>
+      <p>Preparing visualizations...</p>
+    </div>
+  </div>
+
+  <!-- ===== NAVBAR (light) ===== -->
+  <nav class="navbar navbar-light" id="navbar">
+    <div class="nav-container">
+      <a href="index.html" class="nav-logo"><i class="fas fa-water"></i> JalRakshya</a>
+      <ul class="nav-links" id="navLinks">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="dashboard.html">Dashboard</a></li>
+        <li><a href="visualization.html" class="active">Visualization</a></li>
+      </ul>
+      <button class="hamburger" id="hamburger" aria-label="Toggle menu"><span></span><span></span><span></span></button>
+    </div>
+  </nav>
+
+  <main class="page-main">
+    <!-- ===== PAGE HEADER ===== -->
+    <section class="viz-header">
+      <div class="container">
+        <nav class="breadcrumb">
+          <a href="index.html"><i class="fas fa-home"></i> Home</a>
+          <span class="sep">/</span>
+          <a href="dashboard.html">Dashboard</a>
+          <span class="sep">/</span>
+          <span>Visualization</span>
+        </nav>
+        <h1><i class="fas fa-chart-area"></i> Data Visualization &amp; Analysis</h1>
+        <p>Interactive charts and detailed indices for <strong id="vizLocation">your location</strong></p>
+      </div>
+    </section>
+
+    <!-- ===== NO DATA ===== -->
+    <section class="no-data-section" id="noDataSection" style="display:none">
+      <div class="container">
+        <div class="no-data-card">
+          <i class="fas fa-search-location"></i>
+          <h2>No Data Available</h2>
+          <p id="noDataMessage">Please select a location from the Home page first.</p>
+          <a href="index.html" class="btn btn-primary"><i class="fas fa-arrow-left"></i> Go to Home</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== VIZ CONTENT ===== -->
+    <div id="vizContent" style="display:none">
+
+      <!-- Charts Row 1: Line + Bar -->
+      <section class="section" style="padding-top:24px; padding-bottom:16px;">
+        <div class="container">
+          <div class="charts-grid-2">
+            <div class="glass-card chart-card fade-in">
+              <h3><i class="fas fa-chart-line" style="color:#0077b6"></i> Water Level Trend</h3>
+              <p class="chart-desc">Year vs Groundwater Level (meters below surface)</p>
+              <div class="chart-container"><canvas id="lineChart"></canvas></div>
+            </div>
+            <div class="glass-card chart-card fade-in">
+              <h3><i class="fas fa-chart-bar" style="color:#00b4d8"></i> Usage Breakdown</h3>
+              <p class="chart-desc">Agricultural, Industrial &amp; Household Usage (Megalitres)</p>
+              <div class="chart-container"><canvas id="barChart"></canvas></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Correlation Chart (full width) -->
+      <section class="section" style="padding-top:0; padding-bottom:24px;">
+        <div class="container">
+          <div class="glass-card chart-card fade-in">
+            <h3><i class="fas fa-arrows-left-right" style="color:#ef476f"></i> Rainfall vs Groundwater Correlation</h3>
+            <p class="chart-desc">How rainfall patterns correlate with groundwater levels over time</p>
+            <div class="chart-container chart-lg"><canvas id="correlationChart"></canvas></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Water Health Score -->
+      <section class="section score-section" style="padding-top:0; padding-bottom:24px;">
+        <div class="container">
+          <div class="glass-card score-card fade-in">
+            <div class="score-header">
+              <h3><i class="fas fa-bullseye"></i> Water Health Score</h3>
+              <p class="chart-desc">Composite score based on water level, rainfall, and depletion rate</p>
+            </div>
+            <div class="score-display">
+              <div class="score-ring" id="scoreRing">
+                <svg viewBox="0 0 200 200">
+                  <circle class="score-bg-circle" cx="100" cy="100" r="85" />
+                  <circle class="score-fill-circle" cx="100" cy="100" r="85" id="scoreFill" />
+                </svg>
+                <div class="score-number" id="scoreValue">--</div>
+              </div>
+              <div class="score-info">
+                <div class="score-label" id="scoreLabel">Calculating...</div>
+                <p class="score-formula">Score = f(Water Level, Rainfall, Depletion)</p>
+                <div class="score-legend">
+                  <div class="legend-item"><span class="dot dot-green"></span> 70–100: Good</div>
+                  <div class="legend-item"><span class="dot dot-yellow"></span> 40–70: Moderate</div>
+                  <div class="legend-item"><span class="dot dot-red"></span> 0–40: Critical</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Detailed Indices -->
+      <section class="section" style="padding-top:0; padding-bottom:48px;">
+        <div class="container">
+          <div class="section-header" style="margin-bottom:24px;">
+            <h2><i class="fas fa-clipboard-list"></i> Detailed Indices</h2>
+            <p>Individual metrics calculated from the latest data record</p>
+          </div>
+          <div class="indices-grid">
+            <div class="glass-card index-card fade-in">
+              <div class="index-icon" style="color:#0077b6;"><i class="fas fa-flask"></i></div>
+              <h4>Water Quality Index</h4>
+              <p class="index-desc">Based on pH level (ideal: 6.5 – 8.5)</p>
+              <div class="index-bar"><div class="index-fill" id="qualityFill"></div></div>
+              <div class="index-value" id="qualityValue">--</div>
+            </div>
+            <div class="glass-card index-card fade-in">
+              <div class="index-icon" style="color:#00b4d8;"><i class="fas fa-faucet-drip"></i></div>
+              <h4>Usage Index</h4>
+              <p class="index-desc">Combined water usage efficiency</p>
+              <div class="index-bar"><div class="index-fill" id="usageFill"></div></div>
+              <div class="index-value" id="usageValue">--</div>
+            </div>
+            <div class="glass-card index-card fade-in">
+              <div class="index-icon" style="color:#ef476f;"><i class="fas fa-arrow-trend-down"></i></div>
+              <h4>Depletion Index</h4>
+              <p class="index-desc">Rate of groundwater depletion</p>
+              <div class="index-bar"><div class="index-fill" id="depletionFill"></div></div>
+              <div class="index-value" id="depletionValue">--</div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <!-- ===== FOOTER ===== -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-brand"><i class="fas fa-water"></i><span>JalRakshya</span></div>
+        <p>Groundwater Intelligence Platform</p>
+        <div class="footer-links">
+          <a href="index.html">Home</a>
+          <a href="dashboard.html">Dashboard</a>
+          <a href="visualization.html">Visualization</a>
+        </div>
+        <p class="footer-copy">&copy; 2025 JalRakshya</p>
+      </div>
+    </div>
+  </footer>
+
+  <button class="scroll-top-btn" id="scrollTopBtn" aria-label="Scroll to top"><i class="fas fa-chevron-up"></i></button>
+  <script src="script.js"></script>
+</body>
+</html>
